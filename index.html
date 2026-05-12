@@ -4,7 +4,22 @@
 		<meta charset="utf-8">
 		<title>3D Illustration Test</title>
 		<style>
-			body { margin: 0; }
+			body { margin: 0; background-color: #000; overflow: hidden; }
+            #illustration-3d-container {
+                width: 100vw;
+                height: 100vh;
+            }
+            .dim-label {
+                font-family: Arial, sans-serif;
+                color: #fff;
+                background-color: rgba(0, 0, 0, 0.6);
+                font-weight: bold;
+                padding: 2px 6px;
+                border-radius: 3px;
+                border: 1px solid white;
+                white-space: nowrap;
+                pointer-events: none;
+            }
 		</style>
 	</head>
 	<body>
@@ -17,7 +32,8 @@
                     "three": "https://unpkg.com/three@0.161.0/build/three.module.js",
                     "three/addons/": "https://unpkg.com/three@0.161.0/examples/jsm/",
                     "three-mesh-bvh": "https://unpkg.com/three-mesh-bvh@0.7.4/build/index.module.js",
-                    "three-bvh-csg": "https://unpkg.com/three-bvh-csg@0.0.16/build/index.module.js"
+                    "three-bvh-csg": "https://unpkg.com/three-bvh-csg@0.0.16/build/index.module.js",
+                    "three-css2d": "https://unpkg.com/three@0.161.0/examples/jsm/renderers/CSS2DRenderer.js"
                 }
             }
         </script>
