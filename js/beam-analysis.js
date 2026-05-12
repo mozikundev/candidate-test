@@ -111,25 +111,34 @@ BeamAnalysis.analyzer.simplySupported = class {
     }
     getDeflectionEquation(beam, load) {
         return function (x) {
+            let L = beam.primarySpan;
+            let EI = beam.material.properties.EI / Math.pow(1000.3);
+            let j2 = beam.material.properties.j2 || 1;
+            let y = -((load * x) / (24 * EI)) * (Math.pow(L, 3) - (2 * L * Math.pow(x, 2)) + Math.pow(x, 3)) * j2 * 1000;
+
             return {
                 x: x,
-                y: null
+                y: y
             };
         };
     }
     getBendingMomentEquation(beam, load) {
         return function (x) {
+            let L = beam.primarySpan;
+
             return {
                 x: x,
-                y: null
+                y: -((load * x) / 2) * (L - x)
             };
         };
     }
     getShearForceEquation(beam, load) {
         return function (x) {
+            let L = beam.primarySpan;
+
             return {
                 x: x,
-                y: null
+                y: load * ((L / 2) - x)
             };
         };
     }
