@@ -56,6 +56,7 @@
     <canvas id="shear_force_plot"></canvas>
     <canvas id="bending_moment_plot"></canvas>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/beam-analysis.js"></script>
     <script src="js/analysis-plotter.js"></script>
 
@@ -73,6 +74,12 @@
             return document.getElementById(id).value;
         }
 
+        var plotter = {
+            deflection      : new AnalysisPlotter('deflection_plot'),
+            shearForce      : new AnalysisPlotter('shear_force_plot'),
+            bendingMoment   : new AnalysisPlotter('bending_moment_plot')
+        }
+
         document.getElementById('calculate').addEventListener('click', function(e) {
             var beam = new Beam();
 
@@ -83,16 +90,14 @@
                 j2 : floatVal('j2')
             });
 
-            var plotter = {
-                deflection      : new AnalysisPlotter('deflection_plot'),
-                shearForce      : new AnalysisPlotter('shear_force_plot'),
-                bendingMoment   : new AnalysisPlotter('bending_moment_plot')
-            }
-
             var beamAnalysis        = new BeamAnalysis();
             var deflectionData      = beamAnalysis.getDeflection(beam, floatVal('w'), stringVal('condition'));
             var bendingMomentData   = beamAnalysis.getBendingMoment(beam, floatVal('w'), stringVal('condition'));
             var shearForceData      = beamAnalysis.getShearForce(beam, floatVal('w'), stringVal('condition'));
+
+            // plotter.deflection.plot(deflectionData);
+            // plotter.shearForce.plot(shearForceData);
+            // plotter.bendingMoment.plot(bendingMomentData);
 
             plotter.deflection.plot(deflectionData);
             plotter.shearForce.plot(shearForceData);

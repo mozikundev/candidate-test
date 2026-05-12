@@ -158,25 +158,75 @@ BeamAnalysis.analyzer.twoSpanUnequal = class {
     }
     getDeflectionEquation(beam, load) {
         return function (x) {
+            let l1 = beam.primarySpan;
+            let l2 = beam.secondarySpan;
+            let w = load;
+            let EI = beam.material.properties.EI / Math.pow(1000, 3);
+            let j2 = beam.material.properties.j2 || 1;
+
+            let M1 = -((w * Math.pow(l2, 3)) + (w * Math.pow(l1, 3))) / (8 * (l1 + l2));
+            let R1 = (M1 / l1) + ((w * l1) / 2);
+            let R2 = (w * l1) + (w * l2) - R1 - ((M1 / l2) + ((w * l2) / 2));
+            
+            let y;
+
+            if(x <= l1) {
+                y = (x / (24 * EI)) * (4 * R1 * Math.pow(x, 2) - (w * Math.pow(x, 3)) - (4 * R1 * Math.pow(l1, 2)));
+            }else{
+                y = ((R1 * x / 6) * (Math.pow(l1, 2))) + ((R2 * x / 6) * (Math.pow(x, 2) - 3 * l1 * x + 3 * Math.pow(l1, 2))) - ((R2 * Math.pow(l1, 3) / 6)) - ((w * x / 24) * (Math.pow(x, 3) - Math.pow(l1, 3)));
+            }
+
             return {
                 x: x,
-                y: null
+                y: y
             };
         };
     }
     getBendingMomentEquation(beam, load) {
         return function (x) {
+            let l1 = beam.primarySpan;
+            let w = load;
+
+            let l2 = beam.secondarySpan;
+            let M1 = -((w * Math.pow(l2, 3)) + (w * Math.pow(l1, 3))) / (8 * (l1 + l2));
+            let R1 = (M1 / l1) + ((w * l1) / 2);
+            let R2 = (w * l1) + (w * l2) - R1 - ((M1 / l2) + ((w * l2) / 2));
+
+            let y;
+
+            if(x <= l1) {
+                y = (R1 * x) - (0.5 * w * Math.pow(x, 2));
+            }else{
+                y = (R1 * x) + (R2 * (x - l1)) - (0.5 * w * Math.pow(x, 2));
+            }
+
             return {
                 x: x,
-                y: null
+                y: y
             };
         };
     }
     getShearForceEquation(beam, load) {
         return function (x) {
+            let l1 = beam.primarySpan;
+            let w = load;
+
+            let l2 = beam.secondarySpan;
+            let M1 = -((w * Math.pow(l2, 3)) + (w * Math.pow(l1, 3))) / (8 * (l1 + l2));
+            let R1 = (M1 / l1) + ((w * l1) / 2);
+            let R2 = (w * l1) + (w * l2) - R1 - ((M1 / l2) + ((w * l2) / 2));
+            
+            let y;
+
+            if(x <= l1) {
+                y = R1 - (w * x);
+            }else{
+                y = R1 + R2 - (w * x);
+            }
+
             return {
                 x: x,
-                y: null
+                y: y
             };
         };
     }
