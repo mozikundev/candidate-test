@@ -24,6 +24,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/suppliers/{supplier}/export', [SupplierImportExportController::class, 'export'])->name('suppliers.export');
     Route::post('/suppliers/{supplier}/import', [SupplierImportExportController::class, 'import'])->name('suppliers.import');
 
+    Route::get('/suppliers/{supplier}/import/conflicts', [SupplierImportExportController::class, 'conflicts'])->name('suppliers.import.conflicts');
+    Route::post('/suppliers/{supplier}/import/resolve', [SupplierImportExportController::class, 'resolve'])->name('suppliers.import.resolve');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
